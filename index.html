@@ -513,7 +513,7 @@
           <li>Ranked issues with annotated screenshots and fixes</li>
         </ul>
         <p class="best"><b>Best for:</b> a gut check before you ship.</p>
-        <a href="#consult" class="btn btn-ghost">Request Expert Review</a>
+        <a href="#consult" class="btn btn-ghost" data-package="Expert Review ($500)">Request Expert Review</a>
       </div>
 
       <div class="tier">
@@ -527,7 +527,7 @@
           <li>Top issues, with the clips that show them</li>
         </ul>
         <p class="best"><b>Best for:</b> testing a flow or prototype, fast.</p>
-        <a href="#consult" class="btn btn-ghost">Request Quick Test</a>
+        <a href="#consult" class="btn btn-ghost" data-package="Quick Test ($1,000)">Request Quick Test</a>
       </div>
     </div>
 
@@ -545,7 +545,7 @@
         </ul>
         <p class="best"><b>Best for:</b> one specific problem.</p>
         <!-- TODO: swap #consult for Stripe Payment Links -->
-        <a href="#consult" class="btn btn-ghost">Request Snapshot</a>
+        <a href="#consult" class="btn btn-ghost" data-package="Snapshot ($3,000)">Request Snapshot</a>
       </div>
 
       <div class="tier featured">
@@ -561,7 +561,7 @@
           <li>Highlight reel of user quotes</li>
         </ul>
         <p class="best"><b>Best for:</b> planning your next round of improvements.</p>
-        <a href="#consult" class="btn btn-mint">Request Deep Dive</a>
+        <a href="#consult" class="btn btn-mint" data-package="Deep Dive ($8,500)">Request Deep Dive</a>
       </div>
 
       <div class="tier">
@@ -576,7 +576,7 @@
           <li>One-page summary for leadership</li>
         </ul>
         <p class="best"><b>Best for:</b> a redesign, big launch, or stalled growth.</p>
-        <a href="#consult" class="btn btn-ghost">Request Full Review</a>
+        <a href="#consult" class="btn btn-ghost" data-package="Full Product Review ($12,000)">Request Full Review</a>
       </div>
     </div>
 
@@ -588,7 +588,7 @@
         <p class="tagline">A 90-minute audio session to learn to test with your own users.</p>
         <div class="price">$750</div>
         <p class="best"><b>Best for:</b> teams without a researcher who want research to become a habit.</p>
-        <a href="#consult" class="btn btn-ghost">Request Coaching</a>
+        <a href="#consult" class="btn btn-ghost" data-package="Research Coaching ($750)">Request Coaching</a>
       </div>
       <ul>
         <li>Pick the right method for your question</li>
@@ -713,12 +713,12 @@
 <section id="consult">
   <div class="wrap consult-grid">
     <div class="sec-head" style="margin-bottom:0">
-      <span class="mono">Free consultation</span>
-      <h2>Not sure which package fits?</h2>
-      <p>Tell me what you want to learn. I'll reply within 2 business days with a recommendation.</p>
+      <span class="mono">Get started</span>
+      <h2>Request a study, or ask a question.</h2>
+      <p>Pick a package, or choose "Not sure yet" for a free consultation. I'll reply within 1 business day to confirm scope and timing.</p>
     </div>
     <div class="form-card">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSci1r40mZ8e9HO_UGi31vYxu5qBLl9QBHffaYD_DEqWpdEnog/viewform?embedded=true" title="Free research consultation form" loading="lazy">Loading…</iframe>
+      <iframe id="leadForm" src="https://docs.google.com/forms/d/e/1FAIpQLSci1r40mZ8e9HO_UGi31vYxu5qBLl9QBHffaYD_DEqWpdEnog/viewform?embedded=true" title="Free research consultation form" loading="lazy">Loading…</iframe>
     </div>
   </div>
 </section>
@@ -799,5 +799,17 @@
   </div>
 </footer>
 
+<script>
+// Request buttons: open the form with that package already selected
+(function(){
+  var base="https://docs.google.com/forms/d/e/1FAIpQLSci1r40mZ8e9HO_UGi31vYxu5qBLl9QBHffaYD_DEqWpdEnog/viewform?embedded=true";
+  var f=document.getElementById("leadForm");
+  document.querySelectorAll("[data-package]").forEach(function(b){
+    b.addEventListener("click",function(){
+      if(f) f.src=base+"&usp=pp_url&entry.1463049893="+encodeURIComponent(b.getAttribute("data-package"));
+    });
+  });
+})();
+</script>
 </body>
 </html>
