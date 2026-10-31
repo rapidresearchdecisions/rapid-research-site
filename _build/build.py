@@ -181,6 +181,26 @@ C = {
     "one metric that isn't moving.", "Book Diagnosis", featured, badge),
 }
 
+TL_SCRIPT = r"""<script>
+(function(){
+  var tl=document.querySelector(".tl"); if(!tl) return;
+  function set(mode){
+    tl.setAttribute("data-mode",mode);
+    tl.querySelectorAll(".tl-toggle button").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-set")===mode);});
+    tl.querySelectorAll(".tl-bar").forEach(function(i){
+      var v=i.getAttribute(mode==="rapid"?"data-r":"data-t").split(",");
+      i.style.left=v[0]+"%"; i.style.width=v[1]+"%";
+    });
+  }
+  tl.querySelectorAll(".tl-toggle button").forEach(function(b){b.addEventListener("click",function(){set(b.getAttribute("data-set"));});});
+  // Play the comparison once when it scrolls into view
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(e){ if(e[0].isIntersecting){ setTimeout(function(){set("rapid");},700); io.disconnect(); } },{threshold:.5});
+    io.observe(tl);
+  }
+})();
+</script>"""
+
 # ================================================================== HOME
 def home():
     p = ""
@@ -216,16 +236,62 @@ def home():
     <div class="sec-head">
       <span class="mono">Why speed matters</span>
       <h2>Answers while the decision is still open.</h2>
-      <p>By the time a typical research project reports back, you've already shipped. Rapid Research is built to answer before you decide.</p>
+      <p>By the time a typical study reports back, you've already shipped.</p>
     </div>
-    <div class="speedviz" role="img" aria-label="Rapid Research delivers in 24 hours to 3 weeks; typical agencies take weeks to months">
-      <div class="sv-row me"><span class="sv-label">Real-user test</span><div class="sv-track"><i style="width:4%"></i></div><span class="sv-val">24 hours</span></div>
-      <div class="sv-row me"><span class="sv-label">Customer interviews</span><div class="sv-track"><i style="width:12%"></i></div><span class="sv-val">5 days</span></div>
-      <div class="sv-row me"><span class="sv-label">Full product review</span><div class="sv-track"><i style="width:30%"></i></div><span class="sv-val">3 weeks</span></div>
-      <div class="sv-row them"><span class="sv-label">Typical agency project</span><div class="sv-track"><i style="width:100%"></i></div><span class="sv-val">Weeks to months</span></div>
+    <div class="tl" data-mode="trad">
+      <div class="tl-head">
+        <div><h3>Getting answers about your users</h3><p>The same study, start to finish.</p></div>
+        <div class="tl-toggle" role="group" aria-label="Compare timelines">
+          <button type="button" data-set="trad" aria-pressed="true">Traditional research</button>
+          <button type="button" data-set="rapid" aria-pressed="false">Rapid Research</button>
+        </div>
+      </div>
+      <div class="tl-grid">
+        <div class="tl-row tl-axis"><div class="tl-lab"></div><div class="tl-weeks"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span><span>Week 5</span><span>Week 6</span><em class="tl-marker" aria-hidden="true">Report · day 5</em></div></div>
+        <div class="tl-row">
+          <div class="tl-lab"><b>Scope the study</b><span>Kickoff calls and a research plan</span></div>
+          <div class="tl-track" aria-hidden="true">
+            <i class="tl-ghost" style="left:0.0%;width:21.67%"></i>
+            <i class="tl-bar" data-t="0.0,21.67" data-r="0.0,2.0" style="left:0.0%;width:21.67%"></i>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-lab"><b>Recruit participants</b><span>Screener, scheduling, no-shows</span></div>
+          <div class="tl-track" aria-hidden="true">
+            <i class="tl-ghost" style="left:16.67%;width:36.67%"></i>
+            <i class="tl-bar" data-t="16.67,36.67" data-r="1.67,5.83" style="left:16.67%;width:36.67%"></i>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-lab"><b>Run the sessions</b><span>Interviews or real-user tests</span></div>
+          <div class="tl-track" aria-hidden="true">
+            <i class="tl-ghost" style="left:43.33%;width:26.67%"></i>
+            <i class="tl-bar" data-t="43.33,26.67" data-r="5.83,5.83" style="left:43.33%;width:26.67%"></i>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-lab"><b>Make sense of it</b><span>Notes, patterns, what matters most</span></div>
+          <div class="tl-track" aria-hidden="true">
+            <i class="tl-ghost" style="left:63.33%;width:25.0%"></i>
+            <i class="tl-bar" data-t="63.33,25.0" data-r="10.0,4.67" style="left:63.33%;width:25.0%"></i>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-lab"><b>Report back</b><span>Deck, readout meetings</span></div>
+          <div class="tl-track" aria-hidden="true">
+            <i class="tl-ghost" style="left:83.33%;width:16.67%"></i>
+            <i class="tl-bar" data-t="83.33,16.67" data-r="14.17,2.5" style="left:83.33%;width:16.67%"></i>
+          </div>
+        </div>
+      </div>
+      <div class="tl-foot">
+        <div class="tl-sum trad"><b>4–8 weeks</b><span>is common for an agency or in-house study, with several meetings before you hear a single answer.</span></div>
+        <div class="tl-sum rapid"><b>24 hours–5 days</b><span>from booking to report. Real-user tests in 24 hours, customer interviews in 5 days. No meetings required.</span></div>
+      </div>
     </div>
   </div>
 </section>
+{TL_SCRIPT}
 
 <section id="paths">
   <div class="wrap">
