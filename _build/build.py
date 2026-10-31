@@ -85,7 +85,7 @@ def nav(prefix):
   <div class="wrap nav-in">
     <a href="{prefix or './'}" class="logo">Rapid Research</a>
     <div class="nav-links">
-      <a href="{prefix}builders/">Builders</a>
+      <a href="{prefix}builders/">Solo builders</a>
       <a href="{prefix}startups/">Startups</a>
       <a href="{prefix}teams/">Teams &amp; investors</a>
       <a href="{prefix}learn/">Learn</a>
@@ -100,6 +100,11 @@ def footer(prefix):
     f = frag("footer.html")
     f = f.replace('<div class="logo" style="margin-bottom:10px">Rapid Research</div>',
                   f'<a href="{prefix or "./"}" class="logo" style="margin-bottom:10px">Rapid Research</a>')
+    links = (f'<nav class="foot-links" aria-label="Footer">'
+             f'<a href="{prefix}builders/">Solo builders</a><a href="{prefix}startups/">Startups</a>'
+             f'<a href="{prefix}teams/">Teams &amp; investors</a><a href="{prefix}learn/">Learn</a>'
+             f'<a href="{prefix}sample-report.pdf">Sample report</a></nav>')
+    f = f.replace('<p class="disc">', links + '\n    <p class="disc">')
     return "\n" + f + "\n</body>\n</html>\n"
 
 
@@ -118,14 +123,11 @@ def tier(key, speed, name, tagline, price, bullets, best, label, featured=False,
         </ul>
         <p class="best"><b>Best for:</b> {best}</p>
         <a href="{STRIPE[key]}" class="btn {btn}" target="_blank" rel="noopener">{label} →</a>
-        <a href="{{FORM_{key}}}" class="ask">Questions first? Get a free consult</a>
       </div>"""
 
 
 def tiers_block(prefix, cards, cols="three-col"):
     out = f'    <div class="tiers {cols}">\n' + "\n\n".join(c for _, c in cards) + "\n    </div>"
-    for key, _ in cards:
-        out = out.replace("{FORM_" + key + "}", html.escape(form_link(prefix, PKG[key], "call")))
     return out
 
 
@@ -135,19 +137,25 @@ def strip(prefix, text, more_href=None, more_text=None):
       <p>{text}</p>
       <div class="links">
         <a href="{html.escape(form_link(prefix, follow='call'))}" class="btn btn-mint">Book a free 15-min call</a>
+        <a class="more" href="{prefix}sample-report.pdf" target="_blank" rel="noopener">See a sample report</a>
         {more}
       </div>
     </div>"""
 
 
-def page_hero(prefix, eyebrow, h1, lead):
+TRUST_LINE = "PhD in human-AI interaction · Research experience at Meta and Microsoft · NDA on request"
+
+
+def page_hero(prefix, eyebrow, h1, lead, cta=None):
+    btn = f'\n    <div class="hero-ctas" style="margin-top:26px">{cta}</div>' if cta else ""
     return f"""
 <header class="page-hero">
   <div class="wrap">
     <a href="{prefix}" class="crumb">← All options</a><br>
     <span class="eyebrow mono">● {eyebrow}</span>
     <h1>{h1}</h1>
-    <p class="lead">{lead}</p>
+    <p class="lead">{lead}</p>{btn}
+    <p class="hero-meta">{TRUST_LINE}</p>
   </div>
 </header>
 """
@@ -205,8 +213,16 @@ TL_SCRIPT = r"""<script>
 def home():
     p = ""
     hero_report = frag("hero_report.html")
-    stats = frag("stats_trust.html")
+    st = frag("stats_trust.html")
+    trust = st[st.index('<div class="trust">'):]
     ld = frag("ld.html")
+    # keep the FAQ structured data in sync with the visible FAQ
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', ld, re.S)
+    data = json.loads(m.group(1))
+    faqs = re.findall(r'<summary>(.*?)</summary>\s*<p>(.*?)</p>', frag("faq.html"), re.S)
+    clean = lambda x: html.unescape(re.sub(r'<[^>]+>', '', x)).strip()
+    data[1]["mainEntity"] = [{"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in faqs]
+    ld = '<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + '\n</script>'
     extra = ld + "\n"
     out = head("User Research in 24 Hours | Find Out Why Users Drop Off | Rapid Research",
                "Answers from real users in 24 hours, customer interviews in 5 days. Find out why users drop off, churn, or don't pay, without waiting weeks for an agency. From $500.",
@@ -217,19 +233,56 @@ def home():
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow mono">● Answers in 24 hours to 5 days</span>
+        <span class="eyebrow mono">● Customer research for startups</span>
         <h1>Know why users drop off <em>by tomorrow</em>, not next quarter.</h1>
-        <p class="lead">Most research takes weeks. I get you answers from real users in 24 hours, and customer interviews in 5 days, so you can fix things this sprint.</p>
+        <p class="lead">Real users try your product in 24 hours. Customer interviews take 5 days. You get a clear list of what to fix first.</p>
         <div class="hero-ctas">
           <a href="#paths" class="btn btn-mint">Find your fit ↓</a>
-          <a href="{html.escape(form_link(p, follow='call'))}" class="btn btn-ghost" data-pkg="{NOT_SURE}" data-follow="call">Book a free 15-min call</a>
+          <a href="#consult" class="btn btn-ghost" data-pkg="{NOT_SURE}" data-follow="call">Book a free 15-min call</a>
         </div>
+        <p class="hero-meta">From $500 · Fixed prices · NDA on request</p>
       </div>
 
       {hero_report}
-    {stats}
+    {trust}
   </div>
 </header>
+
+<section id="paths">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Find your fit</span>
+      <h2>Where are you right now?</h2>
+      <p>Pick the one that sounds most like you.</p>
+    </div>
+    <div class="paths">
+      <a class="path" href="builders/">
+        <span class="who">Solo founders &amp; indie devs</span>
+        <h3>I'm building something on my own</h3>
+        <p>Get an expert's honest take on what you're building, or learn to get feedback yourself.</p>
+        <div class="foot"><span>From $500 · 24 hours</span><span>See options →</span></div>
+      </a>
+      <a class="path" href="startups/">
+        <span class="who">Startups without a researcher</span>
+        <h3>We need real user feedback, fast</h3>
+        <p>Real people's reactions in 24 hours, or customer interviews in 5 days.</p>
+        <div class="foot"><span>From $1,000 · 24 hours</span><span>See options →</span></div>
+      </a>
+      <a class="path" href="teams/">
+        <span class="who">Funded teams &amp; investors</span>
+        <h3>We want a researcher on call</h3>
+        <p>Research sprints, ongoing fractional research, or support across a portfolio.</p>
+        <div class="foot"><span>Sprints in 2–3 weeks</span><span>See options →</span></div>
+      </a>
+      <a class="path" href="learn/">
+        <span class="who">Researchers, designers &amp; PMs</span>
+        <h3>I want to learn rapid research</h3>
+        <p>Learn to run research fast without cutting corners, in a 1:1 coaching session.</p>
+        <div class="foot"><span>$750 · within a week</span><span>See options →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section id="speed" style="padding:72px 0 24px">
   <div class="wrap">
@@ -293,66 +346,6 @@ def home():
 </section>
 {TL_SCRIPT}
 
-<section id="paths">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="mono">Find your fit</span>
-      <h2>Where are you right now?</h2>
-      <p>Pick the one that sounds most like you.</p>
-    </div>
-    <div class="paths">
-      <a class="path" href="builders/">
-        <span class="who">Solo founders &amp; indie devs</span>
-        <h3>I'm building something on my own</h3>
-        <p>Get an expert's honest take on what you're building, or learn to get feedback yourself.</p>
-        <div class="foot"><span>From $500 · 24 hours</span><span>See options →</span></div>
-      </a>
-      <a class="path" href="startups/">
-        <span class="who">Startups without a researcher</span>
-        <h3>We need real user feedback, fast</h3>
-        <p>Real people's reactions in 24 hours, or customer interviews in 5 days.</p>
-        <div class="foot"><span>From $1,000 · 24 hours</span><span>See options →</span></div>
-      </a>
-      <a class="path" href="teams/">
-        <span class="who">Funded teams &amp; investors</span>
-        <h3>We want a researcher on call</h3>
-        <p>Research sprints, ongoing fractional research, or support across a portfolio.</p>
-        <div class="foot"><span>Sprints in 2–3 weeks</span><span>See options →</span></div>
-      </a>
-      <a class="path" href="learn/">
-        <span class="who">Researchers, designers &amp; PMs</span>
-        <h3>I want to learn rapid research</h3>
-        <p>Learn to run research fast without cutting corners, in a 1:1 coaching session.</p>
-        <div class="foot"><span>$750 · within a week</span><span>See options →</span></div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="free" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="mono">Start free</span>
-      <h2>Check me out first. It's free.</h2>
-      <p>No commitment and no sales pitch. See if it's a fit before you pay anything.</p>
-    </div>
-    <div class="free">
-      <div class="free-card">
-        <span class="tag">Free · 15 minutes</span>
-        <h3>A quick call</h3>
-        <p>Tell me what you're building and what's worrying you. I'll tell you what I'd look at first, even if you never hire me.</p>
-        <a href="#consult" class="btn btn-mint" data-pkg="{NOT_SURE}" data-follow="call">Book a free call</a>
-      </div>
-      <div class="free-card">
-        <span class="tag">Free · by email</span>
-        <h3>A plan and a fixed price</h3>
-        <p>Send your question and a link. Within 1 business day you'll get a short plan for answering it and exactly what it would cost.</p>
-        <a href="#consult" class="btn btn-ghost" data-pkg="{NOT_SURE}" data-follow="quote">Get a free quote</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 {frag("sample.html")}
 
 {frag("why.html")}
@@ -360,9 +353,13 @@ def home():
 <section id="consult">
   <div class="wrap consult-grid">
     <div class="sec-head" style="margin-bottom:0">
-      <span class="mono">Get started</span>
-      <h2>Tell me what you're working on.</h2>
-      <p>Book a study, ask for a free call, or get a free quote. I'll reply within 1 business day.</p>
+      <span class="mono">Start free</span>
+      <h2>Check me out first. It's free.</h2>
+      <p>No commitment and no sales pitch. Pick one, fill in the form, and I'll reply within 1 business day.</p>
+      <div class="free-opts">
+        <button type="button" class="free-opt" data-pkg="{NOT_SURE}" data-follow="call"><b>A free 15-min call</b><span>Tell me what's worrying you. I'll tell you what I'd look at first.</span></button>
+        <button type="button" class="free-opt" data-pkg="{NOT_SURE}" data-follow="quote"><b>A free plan and quote</b><span>Send your question and a link. Get a plan and a fixed price by email.</span></button>
+      </div>
     </div>
     <div class="form-card">
       <iframe id="leadForm" src="https://docs.google.com/forms/d/e/{FORM_ID}/viewform?embedded=true" title="Request a study or free consultation" loading="lazy">Loading…</iframe>
@@ -372,15 +369,7 @@ def home():
 
 {frag("faq.html")}
 
-<section style="padding-top:0">
-  <div class="wrap">
-    <div class="cta">
-      <h2>Stop guessing. Know by tomorrow.</h2>
-      <p>Real answers from real users in 24 hours to 5 days.</p>
-      <a href="#paths" class="btn btn-mint">Find your fit →</a>
-    </div>
-  </div>
-</section>
+
 """
     out += f"""
 <script>
@@ -397,7 +386,8 @@ def home():
     f.src=u;
   }}
   document.querySelectorAll("[data-pkg]").forEach(function(b){{
-    b.addEventListener("click",function(){{ setForm(b.getAttribute("data-pkg"),b.getAttribute("data-follow")); }});
+    b.addEventListener("click",function(){{ setForm(b.getAttribute("data-pkg"),b.getAttribute("data-follow"));
+      document.querySelectorAll(".free-opt").forEach(function(o){{ o.classList.toggle("on", o===b); }}); }});
   }});
   var q=new URLSearchParams(location.search);
   if(q.get("pkg")||q.get("follow")) setForm(q.get("pkg"),q.get("follow"));
@@ -428,6 +418,11 @@ def builders():
 <section id="packages">
   <div class="wrap">
 {tiers_block(p, [("teardown", C["teardown"]()), ("firstuse", C["firstuse"](True, "Most useful")), ("coaching", coaching)])}
+    <div class="mini-steps">
+      <div><b>1. Book</b><span>Pay by card. Takes a minute.</span></div>
+      <div><b>2. Send a link</b><span>Your product and up to 3 questions.</span></div>
+      <div><b>3. Get answers</b><span>A clear report in your inbox, in 24 hours.</span></div>
+    </div>
 {strip(p, "Not sure which one? Talk it through for free.", p + "startups/", "Have a team? See startup options")}
   </div>
 </section>
@@ -480,7 +475,8 @@ def teams():
     out += nav(p)
     out += page_hero(p, "For funded teams & investors",
                      "Research at startup speed: answers in days, not quarters.",
-                     "A senior researcher for your team or your portfolio, without the full-time hire or the agency timeline. Every engagement starts with a short call.")
+                     "A senior researcher for your team or your portfolio, without the full-time hire or the agency timeline. Every engagement starts with a short call.",
+                     f'<a href="{html.escape(form_link(p, follow="call"))}" class="btn btn-mint">Book a call</a><a href="#compare" class="btn btn-ghost">How it compares</a>')
     cmp = frag("compare.html").replace("Real users, senior expertise, startup budget.", "Senior expertise, without agency cost or timelines.")
     call = html.escape(form_link(p, follow="call"))
     out += f"""
@@ -533,7 +529,7 @@ def learn():
     out += nav(p)
     out += page_hero(p, "For researchers, designers & PMs",
                      "Learn to get answers in days, not weeks.",
-                     "Get answers in days instead of weeks: scoping, recruiting, sessions, and synthesis, from someone who does it every week.")
+                     "A 1:1 session on scoping, recruiting, running sessions, and synthesis, built around a study you're planning right now.")
     coaching = tier("coaching", "Within 1 week", "Rapid Research Coaching",
                     "A 1:1 session on running research fast.", "$750",
                     ["90 minutes, built around a study you're planning",

@@ -291,3 +291,18 @@
 @media(prefers-reduced-motion:reduce){.tl-bar,.tl-ghost,.tl-marker{transition:none}}
 .tl-weeks span{transition:opacity .3s}
 .tl[data-mode="rapid"] .tl-weeks span:nth-child(2){opacity:0}
+
+/* Review fixes */
+.hero-meta{margin-top:18px;font-size:.9rem;color:var(--muted)}
+.free-opts{display:grid;gap:12px;margin-top:24px}
+.free-opt{display:grid;gap:4px;text-align:left;font:inherit;color:var(--platinum);background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.free-opt b{font-weight:600}
+.free-opt span{color:var(--muted);font-size:.92rem}
+.free-opt:hover,.free-opt.on{border-color:var(--platinum);box-shadow:0 0 0 3px rgba(7,45,89,.08)}
+.mini-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.mini-steps div{display:grid;gap:4px;padding:18px 20px;border-radius:14px;border:1px dashed var(--line)}
+.mini-steps span{color:var(--muted);font-size:.92rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.9rem}
+.foot-links a:hover{color:var(--platinum)}
+.foot{align-items:flex-start}
+@media(max-width:760px){.mini-steps{grid-template-columns:1fr}}
