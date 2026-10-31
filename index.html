@@ -7,34 +7,37 @@
 <meta name="description" content="Fast, remote user interviews and clear reports for product teams. Participants recruited for you. Results in days, not quarters.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#0D2818;
-    --night-2:#123522;
-    --night-3:#18422B;
-    --mint:#20E395;
-    --mint-dim:rgba(32,227,149,.14);
-    --platinum:#F4F6F8;
-    --muted:rgba(244,246,248,.68);
-    --line:rgba(244,246,248,.12);
-    --ink-muted:#4A5E52;
+    /* The Chaos Debrief palette: logo sage #617C6D + cream #E6E2DE */
+    --night:#3A5143;
+    --night-2:#435B4C;
+    --night-3:#4D6656;
+    --sage:#617C6D;
+    --mint:#E6E2DE;
+    --mint-dim:rgba(230,226,222,.14);
+    --platinum:#E6E2DE;
+    --paper:#F4F1EE;
+    --muted:rgba(230,226,222,.8);
+    --line:rgba(230,226,222,.18);
+    --ink-muted:#435B4C;
     --radius:16px;
     --max:1140px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Inter,system-ui,sans-serif;background:var(--night);color:var(--platinum);line-height:1.6;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.1;letter-spacing:-.02em}
+  h1,h2,h3{font-family:"Instrument Serif",Georgia,serif;line-height:1.1;letter-spacing:-.02em}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-  .mono{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+  .mono{font-family:Inter,system-ui,sans-serif;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
 
   /* Nav */
-  nav{position:sticky;top:0;z-index:10;background:rgba(13,40,24,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav{position:sticky;top:0;z-index:10;background:rgba(58,81,67,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:10px}
-  .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--mint);box-shadow:0 0 14px var(--mint)}
+  .logo{font-family:"Instrument Serif",Georgia,serif;font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:10px}
+  .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--mint);box-shadow:none}
   .logo span{color:var(--mint)}
   .nav-links{display:flex;gap:32px;align-items:center;font-size:.95rem;color:var(--muted)}
   .nav-links a:hover{color:var(--platinum)}
@@ -42,7 +45,7 @@
   /* Buttons */
   .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:.95rem;transition:transform .15s,box-shadow .15s,background .15s;cursor:pointer;border:none}
   .btn-mint{background:var(--mint);color:var(--night)}
-  .btn-mint:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(32,227,149,.35)}
+  .btn-mint:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.22)}
   .btn-ghost{border:1px solid var(--line);color:var(--platinum)}
   .btn-ghost:hover{border-color:var(--mint);color:var(--mint)}
   .nav-links .btn{color:var(--night)}
@@ -63,14 +66,14 @@
   .finding{padding:14px 0;border-top:1px solid var(--line)}
   .finding-top{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:8px}
   .finding-top b{font-weight:600}
-  .finding-top span{color:var(--mint);font-family:"JetBrains Mono",monospace;font-size:.85rem}
+  .finding-top span{color:var(--mint);font-family:Inter,system-ui,sans-serif;font-size:.85rem}
   .bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
   .bar i{display:block;height:100%;background:var(--mint);border-radius:6px}
   .quote{margin-top:18px;padding:14px 16px;border-left:3px solid var(--mint);background:var(--night-3);border-radius:0 10px 10px 0;font-size:.92rem;color:var(--muted);font-style:italic}
 
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:72px;position:relative}
   .stat{background:var(--night);padding:22px 24px}
-  .stat b{display:block;font-family:"Space Grotesk",sans-serif;font-size:1.35rem;margin-bottom:2px}
+  .stat b{display:block;font-family:"Instrument Serif",Georgia,serif;font-size:1.35rem;margin-bottom:2px}
   .stat span{color:var(--muted);font-size:.9rem}
 
   /* Sections */
@@ -83,12 +86,12 @@
   /* Pricing */
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
   .tier{position:relative;background:var(--night-2);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;display:flex;flex-direction:column}
-  .tier.featured{border-color:var(--mint);box-shadow:0 0 0 1px var(--mint),0 24px 70px rgba(32,227,149,.12)}
+  .tier.featured{border-color:var(--mint);box-shadow:0 0 0 1px var(--mint),0 24px 70px rgba(0,0,0,.18)}
   .badge{position:absolute;top:-13px;left:28px;background:var(--mint);color:var(--night);padding:4px 12px;border-radius:999px;font-weight:600}
   .tier .mono{color:var(--muted)}
   .tier h3{font-size:1.6rem;margin:8px 0 6px}
   .tier .tagline{color:var(--muted);font-size:.95rem;min-height:48px}
-  .price{font-family:"Space Grotesk",sans-serif;font-size:2.6rem;font-weight:700;margin:22px 0 4px}
+  .price{font-family:"Instrument Serif",Georgia,serif;font-size:2.6rem;font-weight:700;margin:22px 0 4px}
   .price small{font-size:.95rem;color:var(--muted);font-weight:500;font-family:Inter,sans-serif}
   .meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}
   .meta span{font-size:.82rem;border:1px solid var(--line);padding:4px 10px;border-radius:999px;color:var(--muted)}
@@ -108,7 +111,7 @@
   .tier.wide ul{margin-bottom:0}
   .addons{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
   .addon{border:1px dashed var(--line);border-radius:var(--radius);padding:22px 26px}
-  .addon h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:6px}
+  .addon h4{font-family:"Instrument Serif",Georgia,serif;font-size:1.05rem;margin-bottom:6px}
   .addon p{color:var(--muted);font-size:.92rem}
   .addon .mint{color:var(--mint);font-weight:600}
   .included{margin-top:22px;color:var(--muted);font-size:.9rem;text-align:center}
@@ -116,10 +119,10 @@
   /* Light process section */
   .light{background:var(--platinum);color:var(--night)}
   .light .sec-head p{color:var(--ink-muted)}
-  .light .sec-head .mono{color:#0B8F5C}
+  .light .sec-head .mono{color:var(--night)}
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
-  .step{background:#fff;border:1px solid #E1E6EA;border-radius:var(--radius);padding:28px 24px;position:relative}
-  .step::before{counter-increment:step;content:"0" counter(step);font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--night);background:var(--mint);padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:18px;font-weight:500}
+  .step{background:var(--paper);border:1px solid #D3CEC8;border-radius:var(--radius);padding:28px 24px;position:relative}
+  .step::before{counter-increment:step;content:"0" counter(step);font-family:Inter,system-ui,sans-serif;font-size:.85rem;color:var(--night);background:var(--mint);padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:18px;font-weight:500}
   .step h3{font-size:1.2rem;margin-bottom:8px}
   .step p{color:var(--ink-muted);font-size:.94rem}
 
@@ -127,8 +130,8 @@
   .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
   .creds{display:grid;gap:16px}
   .cred{display:flex;gap:16px;padding:20px 22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--night-2)}
-  .cred-icon{flex:none;width:38px;height:38px;border-radius:10px;background:var(--mint-dim);display:grid;place-items:center;color:var(--mint);font-family:"Space Grotesk",sans-serif;font-weight:700}
-  .cred h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:4px}
+  .cred-icon{flex:none;width:38px;height:38px;border-radius:10px;background:var(--mint-dim);display:grid;place-items:center;color:var(--mint);font-family:"Instrument Serif",Georgia,serif;font-weight:700}
+  .cred h4{font-family:"Instrument Serif",Georgia,serif;font-size:1.05rem;margin-bottom:4px}
   .cred p{color:var(--muted);font-size:.92rem}
 
 
@@ -141,20 +144,28 @@
   /* FAQ */
   .faq{max-width:780px}
   details{border-bottom:1px solid var(--line);padding:22px 0}
-  summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-family:"Space Grotesk",sans-serif;font-size:1.15rem;font-weight:600}
+  summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-family:"Instrument Serif",Georgia,serif;font-size:1.15rem;font-weight:600}
   summary::-webkit-details-marker{display:none}
   summary::after{content:"+";color:var(--mint);font-size:1.5rem;transition:transform .2s}
   details[open] summary::after{transform:rotate(45deg)}
   details p{color:var(--muted);margin-top:12px;max-width:680px}
 
   /* CTA */
-  .cta{text-align:center;padding:88px 32px;border-radius:24px;background:radial-gradient(ellipse at top,var(--night-3),var(--night-2));border:1px solid var(--line)}
+  .cta{text-align:center;padding:88px 32px;border-radius:24px;background:var(--sage);border:1px solid var(--line)}
   .cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:14px}
   .cta p{color:var(--muted);margin-bottom:30px;font-size:1.08rem}
 
   footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:.85rem}
   .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .foot .disc{max-width:620px}
+
+  /* Typography: Instrument Serif headings, Pinyon Script accents */
+  h1,h2,h3,h4,.logo,.price,.cred-icon,summary,.stat b{font-weight:400!important}
+  h1,h2{letter-spacing:-.01em}
+  .hero h1 em{font-family:"Pinyon Script",cursive;font-size:1.15em;line-height:.8;letter-spacing:0;padding:0 .08em}
+  .logo{font-size:1.45rem;letter-spacing:0}
+  .logo i{font-family:"Pinyon Script",cursive;font-style:normal;font-size:1.15em;margin-right:2px}
+  .price{font-size:3rem}
 
   @media(max-width:920px){
     .hero-grid,.why-grid{grid-template-columns:1fr}
@@ -170,7 +181,7 @@
 
 <nav>
   <div class="wrap nav-in">
-    <a href="#" class="logo"><span class="logo-dot"></span>rapid<span>/</span>research</a>
+    <a href="#" class="logo">Rapid Research</a>
     <div class="nav-links">
       <a href="#packages">Packages</a>
       <a href="#process">Process</a>
@@ -476,7 +487,7 @@
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="logo" style="margin-bottom:10px"><span class="logo-dot"></span>rapid<span>/</span>research</div>
+      <div class="logo" style="margin-bottom:10px">Rapid Research</div>
       <a href="mailto:hello@rapid-research.com">hello@rapid-research.com</a><br>
       <a href="https://rapidresearcher.substack.com" target="_blank" rel="noopener">The Chaos Debrief, weekly on Substack →</a>
     </div>
