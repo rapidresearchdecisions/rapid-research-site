@@ -104,6 +104,8 @@
   .group-label span{color:var(--muted);font-size:.95rem}
   .tiers.two{grid-template-columns:repeat(2,1fr);margin-bottom:56px}
   .speed{display:inline-flex;align-items:center;gap:6px;color:var(--night);background:var(--mint);padding:4px 10px;border-radius:999px;font-weight:600;font-size:.72rem;align-self:flex-start;margin-bottom:6px}
+  .tier.wide{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center;margin-top:56px}
+  .tier.wide ul{margin-bottom:0}
   .addons{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
   .addon{border:1px dashed var(--line);border-radius:var(--radius);padding:22px 26px}
   .addon h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:6px}
@@ -156,7 +158,7 @@
 
   @media(max-width:920px){
     .hero-grid,.why-grid{grid-template-columns:1fr}
-    .tiers,.tiers.two,.steps{grid-template-columns:1fr}
+    .tiers,.tiers.two,.steps,.tier.wide{grid-template-columns:1fr}
     .stats{grid-template-columns:1fr 1fr}
     .addons{grid-template-columns:1fr}
     .nav-links a:not(.btn){display:none}
@@ -325,6 +327,29 @@
         <p class="best"><b>Best for:</b> a redesign, a big launch, or stalled growth.</p>
         <a href="#consult" class="btn btn-ghost">Book Full Review</a>
       </div>
+    </div>
+
+    <div class="group-label" style="margin-top:56px"><h3>Do it yourself</h3><span>Learn to run your own research</span></div>
+    <div class="tier wide">
+      <div style="display:flex;flex-direction:column">
+        <span class="speed mono">Within 1 week</span>
+        <span class="mono">Research Coaching</span>
+        <h3>Research Coaching</h3>
+        <p class="tagline">Learn to test with your own users, and keep doing it.</p>
+        <div class="price">$750</div>
+        <div class="meta"><span>90-min session</span><span>Audio call</span><span>Templates included</span></div>
+        <p class="best"><b>Best for:</b> teams that want to make user research a habit without hiring a researcher.</p>
+        <a href="#consult" class="btn btn-ghost">Book Coaching</a>
+      </div>
+      <ul>
+        <li>Pick the right method for the question you have</li>
+        <li>Write your screener and interview or task guide together</li>
+        <li>Where to find participants and what to pay them</li>
+        <li>How to run sessions without leading the user</li>
+        <li>How to turn notes into clear decisions</li>
+        <li>Templates to keep: screener, discussion guide, and synthesis board</li>
+        <li>Two weeks of follow-up questions by email</li>
+      </ul>
     </div>
 
     <div class="addons">
