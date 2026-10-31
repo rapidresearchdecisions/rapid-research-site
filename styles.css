@@ -306,3 +306,7 @@
 .foot-links a:hover{color:var(--platinum)}
 .foot{align-items:flex-start}
 @media(max-width:760px){.mini-steps{grid-template-columns:1fr}}
+
+/* Fixes found by UX check */
+.nav-links .btn,.nav-links .btn-mint{color:#072D59!important}
+footer a{display:inline-block;padding:6px 0}
