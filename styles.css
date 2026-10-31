@@ -322,3 +322,11 @@ footer a{display:inline-block;padding:6px 0}
 .ck span{color:var(--muted);font-size:.92rem}.ck em{font-style:normal;font-size:.78rem;color:var(--mint);font-weight:600}
 @media(max-width:920px){.cks{grid-template-columns:1fr 1fr}.diy{grid-template-columns:1fr}}
 @media(max-width:520px){.cks{grid-template-columns:1fr}}
+
+/* Six-path homepage grid */
+.paths.six{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1020px){.paths.six{grid-template-columns:1fr 1fr}}
+@media(max-width:920px){.paths.six{grid-template-columns:1fr}}
+.path.diy-path{border-style:dashed;border-color:#9DB6CF}
+.paths.six .foot{font-size:.88rem;gap:10px;flex-wrap:nowrap}
+.paths.six .foot span{white-space:nowrap}

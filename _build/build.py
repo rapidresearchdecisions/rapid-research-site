@@ -16,6 +16,7 @@ ENTRY_FOLLOW = "426517647"    # "How should I follow up?"
 FOLLOW = {"call": "15-min audio call", "quote": "Email recommendation"}
 NOT_SURE = "Not sure yet / free consultation"
 CHECK_PKG = "Rapid UX Check, DIY tool ($49)"
+EVALS_PKG = "AI evals (scoped on a call)"
 CHECK_PRICE = "$49"
 # Paste the Gumroad / Lemon Squeezy product link here once it exists; until then
 # the buy button opens the request form with the check preselected.
@@ -97,6 +98,7 @@ def nav(prefix):
       <a href="{prefix}builders/">Solo builders</a>
       <a href="{prefix}startups/">Startups</a>
       <a href="{prefix}teams/">Teams &amp; investors</a>
+      <a href="{prefix}ai-evals/">AI evals</a>
       <a href="{prefix}learn/">Learn</a>
       <a href="{form_link(prefix, follow='call')}" class="btn btn-mint">Free 15-min call</a>
     </div>
@@ -111,7 +113,7 @@ def footer(prefix):
                   f'<a href="{prefix or "./"}" class="logo" style="margin-bottom:10px">Rapid Research</a>')
     links = (f'<nav class="foot-links" aria-label="Footer">'
              f'<a href="{prefix}builders/">Solo builders</a><a href="{prefix}startups/">Startups</a>'
-             f'<a href="{prefix}teams/">Teams &amp; investors</a><a href="{prefix}learn/">Learn</a>'
+             f'<a href="{prefix}teams/">Teams &amp; investors</a><a href="{prefix}ai-evals/">AI evals</a><a href="{prefix}learn/">Learn</a>'
              f'<a href="{prefix}check/">UX Check ({CHECK_PRICE})</a><a href="{prefix}sample-report.pdf">Sample report</a></nav>')
     f = f.replace('<p class="disc">', links + '\n    <p class="disc">')
     return "\n" + f + "\n</body>\n</html>\n"
@@ -272,7 +274,7 @@ def home():
       <h2>Where are you right now?</h2>
       <p>Pick the one that sounds most like you.</p>
     </div>
-    <div class="paths">
+    <div class="paths six">
       <a class="path" href="builders/">
         <span class="who">Solo founders &amp; indie devs</span>
         <h3>I'm building something on my own</h3>
@@ -291,14 +293,25 @@ def home():
         <p>Research sprints, ongoing fractional research, or support across a portfolio.</p>
         <div class="foot"><span>Sprints in 2–3 weeks</span><span>See options →</span></div>
       </a>
+      <a class="path" href="ai-evals/">
+        <span class="who">Teams building with AI</span>
+        <h3>We need to know if our AI is any good</h3>
+        <p>Human evals with real users, clear rubrics, and AI graders you can trust.</p>
+        <div class="foot"><span>From $3,000 · 5 days</span><span>See options →</span></div>
+      </a>
       <a class="path" href="learn/">
         <span class="who">Researchers, designers &amp; PMs</span>
         <h3>I want to learn rapid research</h3>
         <p>Learn to run research fast without cutting corners, in a 1:1 coaching session.</p>
         <div class="foot"><span>$750 · within a week</span><span>See options →</span></div>
       </a>
+      <a class="path diy-path" href="check/">
+        <span class="who">Not ready to hire anyone?</span>
+        <h3>I'll check it myself</h3>
+        <p>An AI tool that reviews your site or code and gives you the top 3 fixes, with the research behind each one.</p>
+        <div class="foot"><span>{CHECK_PRICE} · instant</span><span>See the UX Check →</span></div>
+      </a>
     </div>
-{check_strip(p)}
   </div>
 </section>
 
@@ -535,6 +548,15 @@ def teams():
 </section>
 
 {cmp}
+<section style="padding-top:0">
+  <div class="wrap">
+    <a class="diy" href="{p}ai-evals/">
+      <span class="diy-tag">AI teams</span>
+      <span class="diy-txt"><b>Shipping an AI product?</b> Find out whether its answers are actually good, with human evals and AI graders checked against real people.</span>
+      <span class="diy-go">See AI evals →</span>
+    </a>
+  </div>
+</section>
 """
     out += footer(p)
     write("teams/index.html", out)
@@ -654,12 +676,89 @@ def check():
     write("check/index.html", out)
 
 
+# ================================================================== AI EVALS
+def evals():
+    p = "../"
+    call = html.escape(form_link(p, EVALS_PKG, "call"))
+    out = head("Human AI Evals for LLM Products: Rubrics, Raters, and LLM-Judge Calibration | Rapid Research",
+               "Know if your AI is actually good. Human evals with real users, rubrics raters agree on, and LLM-as-judge calibration, designed by a PhD researcher in human-AI interaction.",
+               "/ai-evals/", p)
+    out += nav(p)
+    out += page_hero(p, "For teams building with AI",
+                     "Know if your AI is actually good, before your users tell you.",
+                     "Human evals designed by a researcher: real people doing real tasks, rubrics that raters agree on, and automated graders checked against human judgment.",
+                     f'<a href="{call}" class="btn btn-mint">Book a call</a><a href="#offers" class="btn btn-ghost">See options</a>')
+    out += f"""
+<section id="why-evals" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Why a researcher</span>
+      <h2>Evals are a measurement problem. Measurement is what researchers do.</h2>
+      <p>Most teams eyeball a few outputs or trust a score nobody has checked. Research methods make the numbers mean something.</p>
+    </div>
+    <div class="mini-steps">
+      <div><b>Real tasks, real people</b><span>Your target users try your AI on their own tasks, not made-up prompts.</span></div>
+      <div><b>Rubrics people agree on</b><span>Clear scoring guides, trained raters, and agreement measured, not assumed.</span></div>
+      <div><b>Graders you can trust</b><span>Your LLM judge is tuned until its scores match human ratings.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="offers" style="padding-top:40px">
+  <div class="wrap">
+    <div class="offers">
+      <div class="offer">
+        <div class="row"><h3>AI Failure Review</h3><span class="from">$3,000 <small>· 5 days</small></span></div>
+        <p>Find out what actually goes wrong. I read through 100–200 of your real conversations or outputs and sort the problems into clear types.</p>
+        <ul><li>Failure types, ranked by how often and how badly they hurt</li><li>A scoring rubric with examples</li><li>50 labeled examples to start your eval set</li></ul>
+      </div>
+      <div class="offer">
+        <div class="row"><h3>Human Eval Study</h3><span class="from"><small>from</small> $9,500 <small>· 2 weeks</small></span></div>
+        <p>Your target users try your AI on real tasks, and trained raters score every output.</p>
+        <ul><li>15–20 participants, tasks from your real use cases</li><li>Every output scored by 2+ raters, with agreement reported</li><li>Compare two models, prompts, or versions side by side</li></ul>
+      </div>
+      <div class="offer">
+        <div class="row"><h3>AI Judge Calibration</h3><span class="from"><small>from</small> $6,000 <small>· 2 weeks</small></span></div>
+        <p>Make your automated grader agree with people, so you can trust it at scale.</p>
+        <ul><li>A human-labeled test set from your own data</li><li>An LLM-judge prompt tuned to match human ratings</li><li>Agreement scores, and a set you can run on every release</li></ul>
+      </div>
+      <div class="offer">
+        <div class="row"><h3>Evals on retainer</h3><span class="from">Monthly</span></div>
+        <p>Ongoing eval support as your product and models change.</p>
+        <ul><li>Regular human eval rounds</li><li>Rubric updates as new failure types appear</li><li>Async help for your team on eval questions</li></ul>
+      </div>
+    </div>
+    <div class="strip">
+      <p>Every eval project is scoped on a short call. NDA, data handling, and invoicing available.</p>
+      <div class="links">
+        <a href="{call}" class="btn btn-mint">Book a call</a>
+        <a class="more" href="mailto:hello@rapid-research.com">or email hello@rapid-research.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="faq">
+      <details><summary>What kinds of AI products do you evaluate?</summary><p>Chat assistants, copilots, agents, AI search and recommendations, and content generation, in consumer and B2B products.</p></details>
+      <details><summary>What does "agreement" mean, and why does it matter?</summary><p>If two people score the same answer differently, your eval is measuring opinions, not quality. I train raters on a shared rubric and report agreement statistics (like Cohen's kappa), so you know the scores are reliable.</p></details>
+      <details><summary>We already use an LLM as a judge. Why add humans?</summary><p>An LLM judge is only as good as its match with human judgment. Calibration checks that match on your own data and fixes the prompt where it disagrees.</p></details>
+      <details><summary>Do you need access to our data?</summary><p>I work with exported samples under NDA. Remove or mask personal data before sharing, and I'll handle everything in line with your policies.</p></details>
+    </div>
+  </div>
+</section>
+"""
+    out += footer(p)
+    write("ai-evals/index.html", out)
+
+
 def sitemap():
-    pages = ["/", "/builders/", "/startups/", "/teams/", "/learn/", "/check/", "/sample-report.pdf"]
+    pages = ["/", "/builders/", "/startups/", "/teams/", "/learn/", "/ai-evals/", "/check/", "/sample-report.pdf"]
     urls = "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n')
 
 
 if __name__ == "__main__":
-    home(); builders(); startups(); teams(); learn(); check(); sitemap()
+    home(); builders(); startups(); teams(); learn(); evals(); check(); sitemap()
     print("built")
