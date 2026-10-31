@@ -15,6 +15,11 @@ ENTRY_PKG = "1463049893"      # "Which package are you interested in?"
 ENTRY_FOLLOW = "426517647"    # "How should I follow up?"
 FOLLOW = {"call": "15-min audio call", "quote": "Email recommendation"}
 NOT_SURE = "Not sure yet / free consultation"
+CHECK_PKG = "Rapid UX Check, DIY tool ($49)"
+CHECK_PRICE = "$49"
+# Paste the Gumroad / Lemon Squeezy product link here once it exists; until then
+# the buy button opens the request form with the check preselected.
+CHECK_BUY_URL = None
 
 STRIPE = {
     "teardown": "https://buy.stripe.com/8x29AU5mG03E4dzepo2sM00",
@@ -103,7 +108,7 @@ def footer(prefix):
     links = (f'<nav class="foot-links" aria-label="Footer">'
              f'<a href="{prefix}builders/">Solo builders</a><a href="{prefix}startups/">Startups</a>'
              f'<a href="{prefix}teams/">Teams &amp; investors</a><a href="{prefix}learn/">Learn</a>'
-             f'<a href="{prefix}sample-report.pdf">Sample report</a></nav>')
+             f'<a href="{prefix}check/">UX Check ({CHECK_PRICE})</a><a href="{prefix}sample-report.pdf">Sample report</a></nav>')
     f = f.replace('<p class="disc">', links + '\n    <p class="disc">')
     return "\n" + f + "\n</body>\n</html>\n"
 
@@ -144,6 +149,14 @@ def strip(prefix, text, more_href=None, more_text=None):
 
 
 TRUST_LINE = "PhD in human-AI interaction · Research experience at Meta and Microsoft · NDA on request"
+
+
+def check_strip(prefix, text="Not ready to hire anyone? Check your product yourself."):
+    return f"""    <a class="diy" href="{prefix}check/">
+      <span class="diy-tag">DIY · {CHECK_PRICE}</span>
+      <span class="diy-txt"><b>{text}</b> The Rapid UX Check is an AI tool that reviews your site or code and gives you the top 3 fixes, with the research behind each one.</span>
+      <span class="diy-go">See the UX Check →</span>
+    </a>"""
 
 
 def page_hero(prefix, eyebrow, h1, lead, cta=None):
@@ -281,6 +294,7 @@ def home():
         <div class="foot"><span>$750 · within a week</span><span>See options →</span></div>
       </a>
     </div>
+{check_strip(p)}
   </div>
 </section>
 
@@ -423,6 +437,7 @@ def builders():
       <div><b>2. Send a link</b><span>Your product and up to 3 questions.</span></div>
       <div><b>3. Get answers</b><span>A clear report in your inbox, in 24 hours.</span></div>
     </div>
+{check_strip(p, "On a tight budget? Run the check yourself.")}
 {strip(p, "Not sure which one? Talk it through for free.", p + "startups/", "Have a team? See startup options")}
   </div>
 </section>
@@ -456,6 +471,7 @@ def startups():
         <p>You make the intros, I handle the rest. <span class="mint">−$250</span> on a Drop-off Diagnosis.</p>
       </div>
     </div>
+{check_strip(p, "Want a quick self-check first?")}
 {strip(p, "Want to check me out first? The first call is free.", p + "teams/", "Need ongoing research? See team options")}
   </div>
 </section>
@@ -544,6 +560,7 @@ def learn():
     <div class="tiers wide-one" style="display:grid;grid-template-columns:minmax(0,520px);justify-content:center">
 {coaching.replace("{FORM_coaching}", html.escape(form_link(p, PKG["coaching"], "call")))}
     </div>
+{check_strip(p, "See how I review products, then use it yourself.")}
     <div class="strip">
       <p>A full cohort course is coming. Subscribe to The Chaos Debrief to hear first.</p>
       <div class="links">
@@ -557,12 +574,88 @@ def learn():
     write("learn/index.html", out)
 
 
+# ================================================================== CHECK (DIY product)
+def check():
+    p = "../"
+    buy = CHECK_BUY_URL or form_link(p, CHECK_PKG, "quote")
+    buy_attrs = ' target="_blank" rel="noopener"' if CHECK_BUY_URL else ""
+    buy_btn = f'<a href="{html.escape(buy)}" class="btn btn-mint"{buy_attrs}>Get the UX Check · {CHECK_PRICE}</a>'
+    out = head("Rapid UX Check: An AI Usability Review for Your Site or App | Rapid Research",
+               "An AI skill for Claude Code that checks your site, app, or code for common usability problems and gives you the top 3 fixes, with the research behind each one. " + CHECK_PRICE + ".",
+               "/check/", p)
+    out += nav(p)
+    out += page_hero(p, "DIY tool for builders",
+                     "A usability review of your product, in minutes.",
+                     "Point it at your site, your code, or a few screenshots. You get the 3 fixes that matter most, exactly where to make them, and the research that explains why.",
+                     buy_btn + '<a href="sample-report.html" class="btn btn-ghost" target="_blank" rel="noopener">See a sample report</a>')
+    checks = [
+        ("Too many choices", "Competing buttons and long menus slow people down.", "Hick's law"),
+        ("Tap targets", "Buttons and links too small to hit on a phone.", "Fitts's law, WCAG 2.2"),
+        ("Hard-to-read text", "Contrast below the readability standard, with a fixed color.", "WCAG 2.2"),
+        ("Form friction", "Missing labels, wrong phone keyboards, long forms, iPhone zoom.", "NN/g, Baymard"),
+        ("Speed", "How long the main content takes to appear, and things that jump.", "Core Web Vitals"),
+        ("First impression", "Can a visitor tell what it is and what to do in 5 seconds?", "NN/g"),
+        ("Dead ends", "Empty screens and vague errors with no way forward.", "Nielsen's heuristics"),
+        ("Accessibility basics", "Alt text, unlabeled icons, missing headlines.", "WCAG 2.2"),
+    ]
+    cards = "\n".join(f'      <div class="ck"><b>{t}</b><span>{d}</span><em>{src}</em></div>' for t, d, src in checks)
+    out += f"""
+<section id="what">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">What it checks</span>
+      <h2>The problems that cost you users, caught automatically.</h2>
+      <p>It measures your pages on desktop and phone, reads your code if you share it, and only reports what it can point to.</p>
+    </div>
+    <div class="cks">
+{cards}
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">What you get</span>
+      <h2>Three fixes, not thirty.</h2>
+      <p>A one-page report you'll actually read.</p>
+    </div>
+    <div class="mini-steps">
+      <div><b>Your top 3 fixes</b><span>What's wrong, why it matters, and exactly where to change it.</span></div>
+      <div><b>The research, as a chart</b><span>Hick's law, Fitts's law, contrast, and more, with your numbers on it.</span></div>
+      <div><b>What's already working</b><span>Plus a tucked-away list of smaller things for later.</span></div>
+    </div>
+    <div class="strip">
+      <p>Includes a {CHECK_PRICE} credit toward any Rapid Research study within 30 days.</p>
+      <div class="links">
+        {buy_btn}
+        <a class="more" href="sample-report.html" target="_blank" rel="noopener">See a sample report</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="faq">
+      <details><summary>What do I need to run it?</summary><p>Claude Code, plus Node and Python on your computer. It asks before installing anything else (it uses Playwright to load your pages).</p></details>
+      <details><summary>Does it work on my local dev server?</summary><p>Yes. Give it a localhost address, your repo, or screenshots. Live URLs give the most complete check.</p></details>
+      <details><summary>Is this the same as real user research?</summary><p>No. It catches common, well-understood problems fast. It can't tell you whether people want your product. For that, a First-Use Test shows real people using it.</p></details>
+      <details><summary>Can I use it more than once?</summary><p>Yes. Run it as often as you like, on any project.</p></details>
+    </div>
+  </div>
+</section>
+"""
+    out += footer(p)
+    write("check/index.html", out)
+
+
 def sitemap():
-    pages = ["/", "/builders/", "/startups/", "/teams/", "/learn/", "/sample-report.pdf"]
+    pages = ["/", "/builders/", "/startups/", "/teams/", "/learn/", "/check/", "/sample-report.pdf"]
     urls = "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n')
 
 
 if __name__ == "__main__":
-    home(); builders(); startups(); teams(); learn(); sitemap()
+    home(); builders(); startups(); teams(); learn(); check(); sitemap()
     print("built")

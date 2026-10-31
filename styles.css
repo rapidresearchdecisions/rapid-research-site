@@ -310,3 +310,15 @@
 /* Fixes found by UX check */
 .nav-links .btn,.nav-links .btn-mint{color:#072D59!important}
 footer a{display:inline-block;padding:6px 0}
+
+/* DIY UX Check */
+.diy{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;margin-top:20px;padding:20px 24px;border-radius:var(--radius);border:1px dashed #9DB6CF;background:#fff;transition:border-color .15s,box-shadow .15s}
+.diy:hover{border-color:var(--platinum);box-shadow:0 12px 30px rgba(7,45,89,.08)}
+.diy-tag{background:var(--platinum);color:#fff;font-weight:600;font-size:.8rem;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.diy-txt{color:var(--muted);font-size:.95rem}.diy-txt b{color:var(--platinum)}
+.diy-go{font-weight:600;white-space:nowrap}
+.cks{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ck{display:grid;gap:4px;align-content:start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.ck span{color:var(--muted);font-size:.92rem}.ck em{font-style:normal;font-size:.78rem;color:var(--mint);font-weight:600}
+@media(max-width:920px){.cks{grid-template-columns:1fr 1fr}.diy{grid-template-columns:1fr}}
+@media(max-width:520px){.cks{grid-template-columns:1fr}}
