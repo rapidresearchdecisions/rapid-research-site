@@ -188,8 +188,8 @@ def home():
     stats = frag("stats_trust.html")
     ld = frag("ld.html")
     extra = ld + "\n"
-    out = head("Find Out Why Users Drop Off | Customer Research for Startups | Rapid Research",
-               "Find out why users drop off, churn, or don't pay. Expert teardowns in 24 hours, real-user tests, and customer interviews with recruiting included. Fixed prices from $500.",
+    out = head("User Research in 24 Hours | Find Out Why Users Drop Off | Rapid Research",
+               "Answers from real users in 24 hours, customer interviews in 5 days. Find out why users drop off, churn, or don't pay, without waiting weeks for an agency. From $500.",
                "/", p, extra)
     out += nav(p)
     out += f"""
@@ -197,9 +197,9 @@ def home():
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow mono">● Customer research for startups</span>
-        <h1>Find out <em>why</em> users drop off, churn, or don't pay.</h1>
-        <p class="lead">Answers from real customers in days, not quarters. I find the people, run the sessions, and tell you what to fix first.</p>
+        <span class="eyebrow mono">● Answers in 24 hours to 5 days</span>
+        <h1>Know why users drop off <em>by tomorrow</em>, not next quarter.</h1>
+        <p class="lead">Most research takes weeks. I get you answers from real users in 24 hours, and customer interviews in 5 days, so you can fix things this sprint.</p>
         <div class="hero-ctas">
           <a href="#paths" class="btn btn-mint">Find your fit ↓</a>
           <a href="{html.escape(form_link(p, follow='call'))}" class="btn btn-ghost" data-pkg="{NOT_SURE}" data-follow="call">Book a free 15-min call</a>
@@ -210,6 +210,22 @@ def home():
     {stats}
   </div>
 </header>
+
+<section id="speed" style="padding:72px 0 24px">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Why speed matters</span>
+      <h2>Answers while the decision is still open.</h2>
+      <p>By the time a typical research project reports back, you've already shipped. Rapid Research is built to answer before you decide.</p>
+    </div>
+    <div class="speedviz" role="img" aria-label="Rapid Research delivers in 24 hours to 3 weeks; typical agencies take weeks to months">
+      <div class="sv-row me"><span class="sv-label">Real-user test</span><div class="sv-track"><i style="width:4%"></i></div><span class="sv-val">24 hours</span></div>
+      <div class="sv-row me"><span class="sv-label">Customer interviews</span><div class="sv-track"><i style="width:12%"></i></div><span class="sv-val">5 days</span></div>
+      <div class="sv-row me"><span class="sv-label">Full product review</span><div class="sv-track"><i style="width:30%"></i></div><span class="sv-val">3 weeks</span></div>
+      <div class="sv-row them"><span class="sv-label">Typical agency project</span><div class="sv-track"><i style="width:100%"></i></div><span class="sv-val">Weeks to months</span></div>
+    </div>
+  </div>
+</section>
 
 <section id="paths">
   <div class="wrap">
@@ -223,25 +239,25 @@ def home():
         <span class="who">Solo founders &amp; indie devs</span>
         <h3>I'm building something on my own</h3>
         <p>Get an expert's honest take on what you're building, or learn to get feedback yourself.</p>
-        <div class="foot"><span>From $500</span><span>See options →</span></div>
+        <div class="foot"><span>From $500 · 24 hours</span><span>See options →</span></div>
       </a>
       <a class="path" href="startups/">
         <span class="who">Startups without a researcher</span>
         <h3>We need real user feedback, fast</h3>
         <p>Real people's reactions in 24 hours, or customer interviews in 5 days.</p>
-        <div class="foot"><span>From $1,000</span><span>See options →</span></div>
+        <div class="foot"><span>From $1,000 · 24 hours</span><span>See options →</span></div>
       </a>
       <a class="path" href="teams/">
         <span class="who">Funded teams &amp; investors</span>
         <h3>We want a researcher on call</h3>
         <p>Research sprints, ongoing fractional research, or support across a portfolio.</p>
-        <div class="foot"><span>Book a call</span><span>See options →</span></div>
+        <div class="foot"><span>Sprints in 2–3 weeks</span><span>See options →</span></div>
       </a>
       <a class="path" href="learn/">
         <span class="who">Researchers, designers &amp; PMs</span>
         <h3>I want to learn rapid research</h3>
         <p>Learn to run research fast without cutting corners, in a 1:1 coaching session.</p>
-        <div class="foot"><span>$750</span><span>See options →</span></div>
+        <div class="foot"><span>$750 · within a week</span><span>See options →</span></div>
       </a>
     </div>
   </div>
@@ -293,8 +309,8 @@ def home():
 <section style="padding-top:0">
   <div class="wrap">
     <div class="cta">
-      <h2>Stop guessing why users leave.</h2>
-      <p>Real answers from real users, starting this week.</p>
+      <h2>Stop guessing. Know by tomorrow.</h2>
+      <p>Real answers from real users in 24 hours to 5 days.</p>
       <a href="#paths" class="btn btn-mint">Find your fit →</a>
     </div>
   </div>
@@ -328,13 +344,13 @@ def home():
 # ================================================================== BUILDERS
 def builders():
     p = "../"
-    out = head("Product Feedback for Indie Devs & Solo Founders | Rapid Research",
+    out = head("Product Feedback in 24 Hours for Indie Devs & Solo Founders | Rapid Research",
                "Get an expert's honest take on what you're building in 24 hours, watch real people try it, or learn to get user feedback yourself. From $500.",
                "/builders/", p)
     out += nav(p)
     out += page_hero(p, "For solo founders & indie devs",
-                     "Get an expert's eyes on what you're building.",
-                     "Vibe coding a side project or about to launch? Get honest feedback from a senior researcher, or learn to get it yourself.")
+                     "Feedback on what you're building, by tomorrow.",
+                     "Vibe coding a side project or about to launch? Get a senior researcher's honest take in 24 hours, or learn to get feedback yourself.")
     coaching = tier("coaching", "Within 1 week", "Customer Interview Coaching",
                     "Learn to get feedback on your product yourself.", "$750",
                     ["A 90-minute call focused on your product",
@@ -357,13 +373,13 @@ def builders():
 # ================================================================== STARTUPS
 def startups():
     p = "../"
-    out = head("User Research for Startups Without a Researcher | Rapid Research",
+    out = head("User Testing in 24 Hours for Startups Without a Researcher | Rapid Research",
                "Real feedback from real users without hiring a researcher: 24-hour real-user tests and customer interviews in 5 days, recruiting included. Fixed prices.",
                "/startups/", p)
     out += nav(p)
     out += page_hero(p, "For startups without a researcher",
-                     "Real feedback from real users, without hiring a researcher.",
-                     "Formal, fast research your team can act on this week. I find the people, run the sessions, and send a clear report.")
+                     "Real user feedback in 24 hours. Customer interviews in 5 days.",
+                     "No researcher on the team? No problem. I find the people, run the sessions, and send a clear report you can act on this sprint.")
     process = frag("process.html").replace('<section id="process" class="light">', '<section id="process" class="light">')
     out += f"""
 <section id="packages">
@@ -392,13 +408,13 @@ def startups():
 # ================================================================== TEAMS
 def teams():
     p = "../"
-    out = head("Fractional User Researcher for Startups & VC Portfolios | Rapid Research",
+    out = head("Fast Fractional User Research for Startups & VC Portfolios | Rapid Research",
                "A senior researcher for your team without the full-time hire: research sprints, ongoing fractional research, and portfolio support for investors.",
                "/teams/", p)
     out += nav(p)
     out += page_hero(p, "For funded teams & investors",
-                     "A senior researcher for your team, without the full-time hire.",
-                     "For funded startups, product teams, and investors who want fast, rigorous customer insight. Every engagement starts with a short call.")
+                     "Research at startup speed: answers in days, not quarters.",
+                     "A senior researcher for your team or your portfolio, without the full-time hire or the agency timeline. Every engagement starts with a short call.")
     cmp = frag("compare.html").replace("Real users, senior expertise, startup budget.", "Senior expertise, without agency cost or timelines.")
     call = html.escape(form_link(p, follow="call"))
     out += f"""
@@ -450,7 +466,7 @@ def learn():
                "/learn/", p)
     out += nav(p)
     out += page_hero(p, "For researchers, designers & PMs",
-                     "Learn to run research fast, without cutting corners.",
+                     "Learn to get answers in days, not weeks.",
                      "Get answers in days instead of weeks: scoping, recruiting, sessions, and synthesis, from someone who does it every week.")
     coaching = tier("coaching", "Within 1 week", "Rapid Research Coaching",
                     "A 1:1 session on running research fast.", "$750",

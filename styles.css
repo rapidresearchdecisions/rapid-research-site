@@ -258,3 +258,14 @@
 .offer li::before{content:"";position:absolute;left:0;top:8px;width:11px;height:6px;border-left:2px solid var(--mint);border-bottom:2px solid var(--mint);transform:rotate(-45deg)}
 .tiers.three-col{grid-template-columns:repeat(3,1fr)}
 @media(max-width:920px){.paths,.free,.offers,.tiers.three-col{grid-template-columns:1fr}.page-hero{padding:56px 0 24px}}
+
+/* Speed comparison */
+.speedviz{display:grid;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px}
+.sv-row{display:grid;grid-template-columns:190px 1fr 140px;gap:18px;align-items:center}
+.sv-label{font-weight:600}
+.sv-track{height:14px;border-radius:14px;background:var(--night-3);overflow:hidden}
+.sv-track i{display:block;height:100%;border-radius:14px;background:var(--platinum);min-width:14px}
+.sv-row.them .sv-label,.sv-row.them .sv-val{color:var(--muted);font-weight:500}
+.sv-row.them .sv-track i{background:#B9C9DA}
+.sv-val{font-weight:700;text-align:right}
+@media(max-width:700px){.sv-row{grid-template-columns:1fr auto;gap:6px 12px}.sv-track{grid-column:1/-1;grid-row:2}}
