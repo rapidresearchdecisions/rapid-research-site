@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rapid Research: Remote User Research for Product Teams</title>
-<meta name="description" content="Fast, remote user interviews and clear reports for product teams. Participants recruited for you. Results in weeks, not quarters.">
+<meta name="description" content="Fast, remote user interviews and clear reports for product teams. Participants recruited for you. Results in days, not quarters.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -99,6 +99,11 @@
   .tier .best b{color:var(--platinum)}
   .tier .btn{justify-content:center}
 
+  .group-label{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .group-label h3{font-size:1.25rem}
+  .group-label span{color:var(--muted);font-size:.95rem}
+  .tiers.two{grid-template-columns:repeat(2,1fr);margin-bottom:56px}
+  .speed{display:inline-flex;align-items:center;gap:6px;color:var(--night);background:var(--mint);padding:4px 10px;border-radius:999px;font-weight:600;font-size:.72rem;align-self:flex-start;margin-bottom:6px}
   .addons{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
   .addon{border:1px dashed var(--line);border-radius:var(--radius);padding:22px 26px}
   .addon h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:6px}
@@ -151,7 +156,7 @@
 
   @media(max-width:920px){
     .hero-grid,.why-grid{grid-template-columns:1fr}
-    .tiers,.steps{grid-template-columns:1fr}
+    .tiers,.tiers.two,.steps{grid-template-columns:1fr}
     .stats{grid-template-columns:1fr 1fr}
     .addons{grid-template-columns:1fr}
     .nav-links a:not(.btn){display:none}
@@ -179,7 +184,7 @@
     <div class="hero-grid">
       <div>
         <span class="eyebrow mono">● Remote user research for product teams</span>
-        <h1>Know why users get stuck, in <em>weeks</em>, not quarters.</h1>
+        <h1>Know why users get stuck, in <em>days</em>, not quarters.</h1>
         <p class="lead">Real interviews with real people, and a clear report on what's broken and what to fix first. I recruit the participants, run the sessions, and do the analysis. You get answers.</p>
         <div class="hero-ctas">
           <a href="#packages" class="btn btn-mint">See packages →</a>
@@ -209,8 +214,8 @@
     </div>
 
     <div class="stats">
-      <div class="stat"><b>5–20</b><span>interviews per study</span></div>
-      <div class="stat"><b>~2 weeks</b><span>to your first report</span></div>
+      <div class="stat"><b>24 hours</b><span>fastest turnaround</span></div>
+      <div class="stat"><b>3–20</b><span>real users per study</span></div>
       <div class="stat"><b>Recruited</b><span>participants found for you</span></div>
       <div class="stat"><b>Fixed price</b><span>no hourly surprises</span></div>
     </div>
@@ -221,17 +226,56 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="mono">Packages</span>
-      <h2>Pick the depth you need.</h2>
-      <p>Every package includes participant recruiting, thank-you incentives, interviews, analysis, and a written report.</p>
+      <h2>Choose your speed and depth.</h2>
+      <p>Need a gut check by tomorrow, or patterns you can plan a roadmap around? Every option ends in a clear written report.</p>
     </div>
 
+    <div class="group-label"><h3>Fast feedback</h3><span>Report in 24 hours</span></div>
+    <div class="tiers two">
+      <div class="tier">
+        <span class="speed mono">⚡ 24 hours</span>
+        <span class="mono">Expert Review</span>
+        <h3>Expert Review</h3>
+        <p class="tagline">An expert walks through your product as a new user.</p>
+        <div class="price">$500</div>
+        <div class="meta"><span>1 flow</span><span>1 platform</span><span>No participants</span></div>
+        <ul>
+          <li>A walkthrough of one flow, such as signup through to your paywall</li>
+          <li>Answers to up to 3 questions you send</li>
+          <li>Issues ranked by severity, with annotated screenshots</li>
+          <li>A suggested fix for each issue</li>
+        </ul>
+        <p class="best"><b>Best for:</b> a quick expert gut check before you ship or test.</p>
+        <a href="#consult" class="btn btn-ghost">Book Expert Review</a>
+      </div>
+
+      <div class="tier">
+        <span class="speed mono">⚡ 24 hours</span>
+        <span class="mono">Quick Test</span>
+        <h3>Quick Test</h3>
+        <p class="tagline">Watch three real people try your product.</p>
+        <div class="price">$1,000</div>
+        <div class="meta"><span>3 participants</span><span>Unmoderated</span><span>Public link</span></div>
+        <ul>
+          <li>3 recorded sessions (screen and voice) on simple tasks you choose</li>
+          <li>Works with a live website, app, or prototype link</li>
+          <li>Top issues, with the moments that show them</li>
+          <li>What to fix first</li>
+        </ul>
+        <p class="best"><b>Best for:</b> checking a flow or prototype with real people, fast.</p>
+        <a href="#consult" class="btn btn-ghost">Book Quick Test</a>
+      </div>
+    </div>
+
+    <div class="group-label"><h3>User interviews</h3><span>Deeper insight, 5 days to 3 weeks</span></div>
     <div class="tiers">
       <div class="tier">
-        <span class="mono">01 · Snapshot</span>
+        <span class="speed mono">5 business days</span>
+        <span class="mono">Snapshot</span>
         <h3>Snapshot</h3>
         <p class="tagline">One focus area. Five users. Fast answers.</p>
         <div class="price">$3,000</div>
-        <div class="meta"><span>5 participants</span><span>1 focus area</span><span>~2 weeks</span></div>
+        <div class="meta"><span>5 participants</span><span>1 focus area</span><span>5 business days</span></div>
         <ul>
           <li>Five 30-minute interviews</li>
           <li>One area: onboarding, core experience, checkout, or similar</li>
@@ -246,11 +290,12 @@
 
       <div class="tier featured">
         <span class="badge mono">Most popular</span>
-        <span class="mono">02 · Deep Dive</span>
+        <span class="speed mono">2 weeks</span>
+        <span class="mono">Deep Dive</span>
         <h3>Deep Dive</h3>
         <p class="tagline">Up to three focus areas. Fifteen users. Patterns you can trust.</p>
         <div class="price">$8,500</div>
-        <div class="meta"><span>15 participants</span><span>Up to 3 areas</span><span>~3–4 weeks</span></div>
+        <div class="meta"><span>15 participants</span><span>Up to 3 areas</span><span>2 weeks</span></div>
         <ul>
           <li>Fifteen 30-minute interviews</li>
           <li>Up to three areas of your product</li>
@@ -264,11 +309,12 @@
       </div>
 
       <div class="tier">
-        <span class="mono">03 · Full Review</span>
+        <span class="speed mono">3 weeks</span>
+        <span class="mono">Full Review</span>
         <h3>Full Product Review</h3>
         <p class="tagline">Your whole product, end to end.</p>
         <div class="price">$12,000</div>
-        <div class="meta"><span>20 participants</span><span>Full journey</span><span>~5–6 weeks</span></div>
+        <div class="meta"><span>20 participants</span><span>Full journey</span><span>3 weeks</span></div>
         <ul>
           <li>Expert review of your product before interviews</li>
           <li>Twenty 30-minute interviews across the full journey</li>
@@ -284,14 +330,14 @@
     <div class="addons">
       <div class="addon">
         <h4>Professional / B2B participants</h4>
-        <p>Need people with specific jobs or industries? <span class="mint">+$500 / +$1,350 / +$1,800</span> by package, covering specialized recruiting and higher incentives.</p>
+        <p>Need people with specific jobs or industries? <span class="mint">+$500 / +$1,350 / +$1,800</span> for Snapshot / Deep Dive / Full Review, covering specialized recruiting and higher incentives.</p>
       </div>
       <div class="addon">
         <h4>Use your own users</h4>
-        <p>Want to hear from your existing customers? <span class="mint">−$250 / −$750 / −$1,000</span> by package. You make the introduction; I handle the rest.</p>
+        <p>Want to hear from your existing customers? <span class="mint">−$250 / −$750 / −$1,000</span> for Snapshot / Deep Dive / Full Review. You make the introduction; I handle the rest.</p>
       </div>
     </div>
-    <p class="included">All interviews are remote and audio-only. Participant incentives are included in the price.</p>
+    <p class="included">Interviews are remote and audio-only. Quick Test sessions are unmoderated recordings and need a publicly accessible link. Participant incentives are always included.</p>
   </div>
 </section>
 
@@ -381,7 +427,7 @@
       </details>
       <details>
         <summary>What exactly do I receive?</summary>
-        <p>A PDF report with ranked findings, supporting user quotes, and specific recommendations. Deeper packages add severity ratings, a fix roadmap, and an executive summary.</p>
+        <p>A PDF report with ranked findings, supporting user quotes, and specific recommendations. Quick Tests add session recordings; deeper packages add severity ratings, a fix roadmap, and an executive summary.</p>
       </details>
       <details>
         <summary>How is participant privacy handled?</summary>
