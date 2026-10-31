@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapid Research: Remote User Research for Product Teams</title>
+<meta name="description" content="Fast, remote user interviews and clear reports for product teams. Participants recruited for you. Results in weeks, not quarters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0D2818;
+    --night-2:#123522;
+    --night-3:#18422B;
+    --mint:#20E395;
+    --mint-dim:rgba(32,227,149,.14);
+    --platinum:#F4F6F8;
+    --muted:rgba(244,246,248,.68);
+    --line:rgba(244,246,248,.12);
+    --ink-muted:#4A5E52;
+    --radius:16px;
+    --max:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--night);color:var(--platinum);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.1;letter-spacing:-.02em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+
+  /* Nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(13,40,24,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:10px}
+  .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--mint);box-shadow:0 0 14px var(--mint)}
+  .logo span{color:var(--mint)}
+  .nav-links{display:flex;gap:32px;align-items:center;font-size:.95rem;color:var(--muted)}
+  .nav-links a:hover{color:var(--platinum)}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:.95rem;transition:transform .15s,box-shadow .15s,background .15s;cursor:pointer;border:none}
+  .btn-mint{background:var(--mint);color:var(--night)}
+  .btn-mint:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(32,227,149,.35)}
+  .btn-ghost{border:1px solid var(--line);color:var(--platinum)}
+  .btn-ghost:hover{border-color:var(--mint);color:var(--mint)}
+  .nav-links .btn{color:var(--night)}
+
+  /* Hero */
+  .hero{position:relative;padding:96px 0 88px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 70%);opacity:.5;pointer-events:none}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--mint);background:var(--mint-dim);padding:6px 14px;border-radius:999px;margin-bottom:24px}
+  .hero h1{font-size:clamp(2.6rem,5.4vw,4.1rem);margin-bottom:22px}
+  .hero h1 em{font-style:normal;color:var(--mint)}
+  .hero p.lead{font-size:1.15rem;color:var(--muted);max-width:540px;margin-bottom:34px}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+
+  .report{background:var(--night-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .report-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;color:var(--muted)}
+  .pill{background:var(--mint-dim);color:var(--mint);padding:4px 10px;border-radius:999px}
+  .finding{padding:14px 0;border-top:1px solid var(--line)}
+  .finding-top{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:8px}
+  .finding-top b{font-weight:600}
+  .finding-top span{color:var(--mint);font-family:"JetBrains Mono",monospace;font-size:.85rem}
+  .bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--mint);border-radius:6px}
+  .quote{margin-top:18px;padding:14px 16px;border-left:3px solid var(--mint);background:var(--night-3);border-radius:0 10px 10px 0;font-size:.92rem;color:var(--muted);font-style:italic}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:72px;position:relative}
+  .stat{background:var(--night);padding:22px 24px}
+  .stat b{display:block;font-family:"Space Grotesk",sans-serif;font-size:1.35rem;margin-bottom:2px}
+  .stat span{color:var(--muted);font-size:.9rem}
+
+  /* Sections */
+  section{padding:96px 0}
+  .sec-head{max-width:640px;margin-bottom:52px}
+  .sec-head .mono{color:var(--mint);display:block;margin-bottom:14px}
+  .sec-head h2{font-size:clamp(2rem,3.6vw,2.8rem);margin-bottom:14px}
+  .sec-head p{color:var(--muted);font-size:1.08rem}
+
+  /* Pricing */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+  .tier{position:relative;background:var(--night-2);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;display:flex;flex-direction:column}
+  .tier.featured{border-color:var(--mint);box-shadow:0 0 0 1px var(--mint),0 24px 70px rgba(32,227,149,.12)}
+  .badge{position:absolute;top:-13px;left:28px;background:var(--mint);color:var(--night);padding:4px 12px;border-radius:999px;font-weight:600}
+  .tier .mono{color:var(--muted)}
+  .tier h3{font-size:1.6rem;margin:8px 0 6px}
+  .tier .tagline{color:var(--muted);font-size:.95rem;min-height:48px}
+  .price{font-family:"Space Grotesk",sans-serif;font-size:2.6rem;font-weight:700;margin:22px 0 4px}
+  .price small{font-size:.95rem;color:var(--muted);font-weight:500;font-family:Inter,sans-serif}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}
+  .meta span{font-size:.82rem;border:1px solid var(--line);padding:4px 10px;border-radius:999px;color:var(--muted)}
+  .tier ul{list-style:none;margin-bottom:28px;flex:1}
+  .tier li{position:relative;padding:7px 0 7px 26px;font-size:.95rem}
+  .tier li::before{content:"";position:absolute;left:0;top:14px;width:12px;height:7px;border-left:2px solid var(--mint);border-bottom:2px solid var(--mint);transform:rotate(-45deg)}
+  .tier .best{font-size:.88rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-bottom:22px}
+  .tier .best b{color:var(--platinum)}
+  .tier .btn{justify-content:center}
+
+  .addons{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+  .addon{border:1px dashed var(--line);border-radius:var(--radius);padding:22px 26px}
+  .addon h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:6px}
+  .addon p{color:var(--muted);font-size:.92rem}
+  .addon .mint{color:var(--mint);font-weight:600}
+  .included{margin-top:22px;color:var(--muted);font-size:.9rem;text-align:center}
+
+  /* Light process section */
+  .light{background:var(--platinum);color:var(--night)}
+  .light .sec-head p{color:var(--ink-muted)}
+  .light .sec-head .mono{color:#0B8F5C}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
+  .step{background:#fff;border:1px solid #E1E6EA;border-radius:var(--radius);padding:28px 24px;position:relative}
+  .step::before{counter-increment:step;content:"0" counter(step);font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--night);background:var(--mint);padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:18px;font-weight:500}
+  .step h3{font-size:1.2rem;margin-bottom:8px}
+  .step p{color:var(--ink-muted);font-size:.94rem}
+
+  /* Why */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .creds{display:grid;gap:16px}
+  .cred{display:flex;gap:16px;padding:20px 22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--night-2)}
+  .cred-icon{flex:none;width:38px;height:38px;border-radius:10px;background:var(--mint-dim);display:grid;place-items:center;color:var(--mint);font-family:"Space Grotesk",sans-serif;font-weight:700}
+  .cred h4{font-family:"Space Grotesk",sans-serif;font-size:1.05rem;margin-bottom:4px}
+  .cred p{color:var(--muted);font-size:.92rem}
+
+
+  /* Consult */
+  .consult-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+  .form-card{background:var(--platinum);border-radius:var(--radius);padding:8px;overflow:hidden}
+  .form-card iframe{display:block;width:100%;height:1150px;border:0;border-radius:12px}
+  @media(max-width:920px){.consult-grid{grid-template-columns:1fr}}
+
+  /* FAQ */
+  .faq{max-width:780px}
+  details{border-bottom:1px solid var(--line);padding:22px 0}
+  summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-family:"Space Grotesk",sans-serif;font-size:1.15rem;font-weight:600}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--mint);font-size:1.5rem;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);margin-top:12px;max-width:680px}
+
+  /* CTA */
+  .cta{text-align:center;padding:88px 32px;border-radius:24px;background:radial-gradient(ellipse at top,var(--night-3),var(--night-2));border:1px solid var(--line)}
+  .cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:14px}
+  .cta p{color:var(--muted);margin-bottom:30px;font-size:1.08rem}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:.85rem}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot .disc{max-width:620px}
+
+  @media(max-width:920px){
+    .hero-grid,.why-grid{grid-template-columns:1fr}
+    .tiers,.steps{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .addons{grid-template-columns:1fr}
+    .nav-links a:not(.btn){display:none}
+    .tier .tagline{min-height:0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#" class="logo"><span class="logo-dot"></span>rapid<span>/</span>research</a>
+    <div class="nav-links">
+      <a href="#packages">Packages</a>
+      <a href="#process">Process</a>
+      <a href="#faq">FAQ</a>
+      <a href="#consult">Free consult</a>
+      <a href="#packages" class="btn btn-mint">Start a study</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow mono">● Remote user research for product teams</span>
+        <h1>Know why users get stuck, in <em>weeks</em>, not quarters.</h1>
+        <p class="lead">Real interviews with real people, and a clear report on what's broken and what to fix first. I recruit the participants, run the sessions, and do the analysis. You get answers.</p>
+        <div class="hero-ctas">
+          <a href="#packages" class="btn btn-mint">See packages →</a>
+          <a href="#process" class="btn btn-ghost">How it works</a>
+        </div>
+      </div>
+
+      <div class="report" aria-label="Sample report preview">
+        <div class="report-head">
+          <span class="mono">Sample findings · Onboarding</span>
+          <span class="pill mono">5 users</span>
+        </div>
+        <div class="finding">
+          <div class="finding-top"><b>Didn't understand what the AI could do</b><span>4/5</span></div>
+          <div class="bar"><i style="width:80%"></i></div>
+        </div>
+        <div class="finding">
+          <div class="finding-top"><b>Skipped setup, then got lost</b><span>3/5</span></div>
+          <div class="bar"><i style="width:60%"></i></div>
+        </div>
+        <div class="finding">
+          <div class="finding-top"><b>Unsure if their data was private</b><span>2/5</span></div>
+          <div class="bar"><i style="width:40%"></i></div>
+        </div>
+        <div class="quote">"I thought I had to connect everything before it would work, so I just closed it."</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>5–20</b><span>interviews per study</span></div>
+      <div class="stat"><b>~2 weeks</b><span>to your first report</span></div>
+      <div class="stat"><b>Recruited</b><span>participants found for you</span></div>
+      <div class="stat"><b>Fixed price</b><span>no hourly surprises</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Packages</span>
+      <h2>Pick the depth you need.</h2>
+      <p>Every package includes participant recruiting, thank-you incentives, interviews, analysis, and a written report.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier">
+        <span class="mono">01 · Snapshot</span>
+        <h3>Snapshot</h3>
+        <p class="tagline">One focus area. Five users. Fast answers.</p>
+        <div class="price">$3,000</div>
+        <div class="meta"><span>5 participants</span><span>1 focus area</span><span>~2 weeks</span></div>
+        <ul>
+          <li>Five 30-minute interviews</li>
+          <li>One area: onboarding, core experience, checkout, or similar</li>
+          <li>Top issues, ranked by impact</li>
+          <li>What to fix first</li>
+          <li>Key user quotes</li>
+        </ul>
+        <p class="best"><b>Best for:</b> a specific problem you want to understand quickly.</p>
+        <!-- TODO: swap #consult for Stripe Payment Links -->
+        <a href="#consult" class="btn btn-ghost">Book Snapshot</a>
+      </div>
+
+      <div class="tier featured">
+        <span class="badge mono">Most popular</span>
+        <span class="mono">02 · Deep Dive</span>
+        <h3>Deep Dive</h3>
+        <p class="tagline">Up to three focus areas. Fifteen users. Patterns you can trust.</p>
+        <div class="price">$8,500</div>
+        <div class="meta"><span>15 participants</span><span>Up to 3 areas</span><span>~3–4 weeks</span></div>
+        <ul>
+          <li>Fifteen 30-minute interviews</li>
+          <li>Up to three areas of your product</li>
+          <li>Issues ranked by frequency and severity</li>
+          <li>Specific recommendations for each problem</li>
+          <li>Report organized by focus area</li>
+          <li>Highlight reel of user quotes</li>
+        </ul>
+        <p class="best"><b>Best for:</b> teams planning their next round of improvements.</p>
+        <a href="#consult" class="btn btn-mint">Book Deep Dive</a>
+      </div>
+
+      <div class="tier">
+        <span class="mono">03 · Full Review</span>
+        <h3>Full Product Review</h3>
+        <p class="tagline">Your whole product, end to end.</p>
+        <div class="price">$12,000</div>
+        <div class="meta"><span>20 participants</span><span>Full journey</span><span>~5–6 weeks</span></div>
+        <ul>
+          <li>Expert review of your product before interviews</li>
+          <li>Twenty 30-minute interviews across the full journey</li>
+          <li>What's working, what's broken, and why</li>
+          <li>Prioritized fix roadmap: quick wins vs. bigger bets</li>
+          <li>One-page summary for leadership</li>
+        </ul>
+        <p class="best"><b>Best for:</b> a redesign, a big launch, or stalled growth.</p>
+        <a href="#consult" class="btn btn-ghost">Book Full Review</a>
+      </div>
+    </div>
+
+    <div class="addons">
+      <div class="addon">
+        <h4>Professional / B2B participants</h4>
+        <p>Need people with specific jobs or industries? <span class="mint">+$500 / +$1,350 / +$1,800</span> by package, covering specialized recruiting and higher incentives.</p>
+      </div>
+      <div class="addon">
+        <h4>Use your own users</h4>
+        <p>Want to hear from your existing customers? <span class="mint">−$250 / −$750 / −$1,000</span> by package. You make the introduction; I handle the rest.</p>
+      </div>
+    </div>
+    <p class="included">All interviews are remote and audio-only. Participant incentives are included in the price.</p>
+  </div>
+</section>
+
+<section id="process" class="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Process</span>
+      <h2>No meetings required.</h2>
+      <p>Everything runs asynchronously. You share your goals once, and the report lands in your inbox.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Book &amp; pay</h3>
+        <p>Choose a package and check out securely by card.</p>
+      </div>
+      <div class="step">
+        <h3>Share your goals</h3>
+        <p>A short form: what you want to learn, who your users are, and which part of the product to focus on.</p>
+      </div>
+      <div class="step">
+        <h3>I run the study</h3>
+        <p>I recruit and screen participants, run the interviews, and handle incentives.</p>
+      </div>
+      <div class="step">
+        <h3>Get your report</h3>
+        <p>A clear PDF with findings, quotes, and recommendations, plus one round of follow-up questions by email.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap why-grid">
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="mono">Why Rapid Research</span>
+      <h2>Research rigor, without the agency overhead.</h2>
+      <p>You get PhD-level research methods at a fraction of agency timelines, with a specialty in products that use AI, personal data, and recommendations.</p>
+    </div>
+    <div class="creds">
+      <div class="cred">
+        <div class="cred-icon">01</div>
+        <div><h4>PhD in Human-Computer Interaction</h4><p>Research trained at Brown University, with peer-reviewed work published at CHI, UIST, and IMWUT.</p></div>
+      </div>
+      <div class="cred">
+        <div class="cred-icon">02</div>
+        <div><h4>AI &amp; personal-data products</h4><p>Deep experience studying how people use recommendations, self-tracking, and personalized technology.</p></div>
+      </div>
+      <div class="cred">
+        <div class="cred-icon">03</div>
+        <div><h4>Built for speed</h4><p>A lean, proven process means you get answers in weeks, at a fixed price.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="consult">
+  <div class="wrap consult-grid">
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="mono">Free consultation</span>
+      <h2>Not sure which package fits?</h2>
+      <p>Tell me about your product and what you want to learn. I'll reply within 2 business days with a recommendation, by email or a short audio call.</p>
+    </div>
+    <div class="form-card">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSci1r40mZ8e9HO_UGi31vYxu5qBLl9QBHffaYD_DEqWpdEnog/viewform?embedded=true" title="Free research consultation form" loading="lazy">Loading…</iframe>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">FAQ</span>
+      <h2>Questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Who are the participants?</summary>
+        <p>By default, I recruit people who match your target users through a vetted research panel and screen them before each session. If you'd rather hear from your existing customers, choose the "use your own users" option.</p>
+      </details>
+      <details>
+        <summary>Do I need to attend any calls?</summary>
+        <p>No. You fill out a short intake form, and everything else happens on my end. Questions after delivery are handled by email.</p>
+      </details>
+      <details>
+        <summary>What kinds of products do you work with?</summary>
+        <p>Web and mobile apps, especially products with AI features, personalization, or personal data. Consumer and B2B are both welcome.</p>
+      </details>
+      <details>
+        <summary>What exactly do I receive?</summary>
+        <p>A PDF report with ranked findings, supporting user quotes, and specific recommendations. Deeper packages add severity ratings, a fix roadmap, and an executive summary.</p>
+      </details>
+      <details>
+        <summary>How is participant privacy handled?</summary>
+        <p>Participants consent to being recorded at the start of each session. Reports use anonymized quotes, and raw recordings are not shared without participant consent.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <h2>Stop guessing why users leave.</h2>
+      <p>Get real answers from real users, starting this week.</p>
+      <a href="#packages" class="btn btn-mint">Choose a package →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="logo" style="margin-bottom:10px"><span class="logo-dot"></span>rapid<span>/</span>research</div>
+      <a href="mailto:hello@rapid-research.com">hello@rapid-research.com</a>
+    </div>
+    <p class="disc">Rapid Research provides user experience research. Findings and recommendations are not medical, legal, financial, or regulatory advice. © 2026 Rapid Research.</p>
+  </div>
+</footer>
+
+</body>
+</html>
