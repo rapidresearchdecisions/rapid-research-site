@@ -16,6 +16,34 @@ ENTRY_FOLLOW = "426517647"    # "How should I follow up?"
 FOLLOW = {"call": "15-min audio call", "quote": "Email recommendation"}
 NOT_SURE = "Not sure yet / free consultation"
 CHECK_PKG = "Rapid UX Check, DIY tool ($49)"
+GA_ID = "G-BK4ZM3LG8E"
+CLARITY_ID = "z7lco8d5ug"
+# Analytics only load on the real domain, so local previews aren't counted.
+TRACKING = f"""<script>
+(function(){{
+  if (location.hostname !== "rapid-research.com" && location.hostname !== "www.rapid-research.com") return;
+  var g=document.createElement("script"); g.async=true; g.src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"; document.head.appendChild(g);
+  window.dataLayer=window.dataLayer||[]; window.gtag=function(){{dataLayer.push(arguments);}};
+  gtag("js",new Date()); gtag("config","{GA_ID}");
+  (function(c,l,a,r,i,t,y){{c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);}})(window,document,"clarity","script","{CLARITY_ID}");
+  // Count the clicks that matter: bookings, free calls/quotes, path choices, the DIY check, the sample report.
+  document.addEventListener("click",function(e){{
+    var a=e.target.closest("a,button"); if(!a||!window.gtag) return;
+    var href=a.getAttribute("href")||"", txt=(a.innerText||"").trim().slice(0,60), ev=null, p={{label:txt,page:location.pathname}};
+    if(href.indexOf("buy.stripe.com")>-1) ev="book_click";
+    else if(a.dataset.follow==="call"||/free 15-min call|book a call/i.test(txt)) ev="free_call_click";
+    else if(a.dataset.follow==="quote"||/quote/i.test(txt)) ev="free_quote_click";
+    else if(a.classList.contains("path")) {{ ev="path_click"; p.path=href; }}
+    else if(/sample-report/.test(href)) ev="sample_report_click";
+    else if(href.indexOf("check/")>-1) ev="ux_check_click";
+    else if(href.indexOf("mailto:")===0) ev="email_click";
+    if(ev){{ gtag("event",ev,p); if(window.clarity) clarity("event",ev); }}
+  }},true);
+}})();
+</script>
+"""
 EVALS_PKG = "AI evals (scoped on a call)"
 CHECK_PRICE = "$49"
 # Paste the Gumroad / Lemon Squeezy product link here once it exists; until then
@@ -80,6 +108,7 @@ def head(title, desc, path, prefix, extra=""):
 <link rel="icon" href="{prefix}img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{prefix}img/apple-touch-icon.png">
 <meta name="theme-color" content="#072D59">
+{TRACKING}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -114,7 +143,7 @@ def footer(prefix):
     links = (f'<nav class="foot-links" aria-label="Footer">'
              f'<a href="{prefix}builders/">Solo builders</a><a href="{prefix}startups/">Startups</a>'
              f'<a href="{prefix}teams/">Teams &amp; investors</a><a href="{prefix}ai-evals/">AI evals</a><a href="{prefix}learn/">Learn</a>'
-             f'<a href="{prefix}check/">UX Check ({CHECK_PRICE})</a><a href="{prefix}sample-report.pdf">Sample report</a></nav>')
+             f'<a href="{prefix}check/">UX Check ({CHECK_PRICE})</a><a href="{prefix}sample-report.pdf">Sample report</a><a href="{prefix}privacy/">Privacy</a></nav>')
     f = f.replace('<p class="disc">', links + '\n    <p class="disc">')
     return "\n" + f + "\n</body>\n</html>\n"
 
@@ -753,6 +782,35 @@ def evals():
     out += footer(p)
     write("ai-evals/index.html", out)
 
+# ================================================================== PRIVACY
+def privacy():
+    p = "../"
+    out = head("Privacy | Rapid Research", "How rapid-research.com handles visitor data.", "/privacy/", p)
+    out += nav(p)
+    out += f"""
+<section class="page-hero" style="padding-bottom:24px">
+  <div class="wrap">
+    <a href="{p}" class="crumb">← Home</a><br>
+    <h1>Privacy</h1>
+    <p class="lead">Short version: I measure visits to improve this site, I never sell your data, and you can ask me to delete anything you've sent.</p>
+  </div>
+</section>
+<section style="padding-top:24px">
+  <div class="wrap faq" style="max-width:720px">
+    <h3>What this site measures</h3>
+    <p>This site uses <b>Google Analytics</b> to count visits, see which pages people view, roughly where they're from (city or country), what device they use, and how they found the site. It uses <b>Microsoft Clarity</b> to see how people use pages, such as clicks and scrolling, so I can make the site easier to use. Both use cookies. Clarity masks what you type into fields.</p>
+    <h3>What you send me</h3>
+    <p>If you fill in the request form, your answers are stored in Google Forms and used only to reply to you and run your project. Payments go through Stripe; I never see your full card details.</p>
+    <h3>Your choices</h3>
+    <p>You can block cookies in your browser or use an ad blocker, and the site still works. To see or delete anything you've sent, email <a href="mailto:hello@rapid-research.com">hello@rapid-research.com</a>.</p>
+    <p class="muted" style="margin-top:28px;font-size:.9rem">Last updated November 2026.</p>
+  </div>
+</section>
+"""
+    out += footer(p)
+    write("privacy/index.html", out)
+
+
 def sitemap():
     pages = ["/", "/builders/", "/startups/", "/teams/", "/learn/", "/ai-evals/", "/check/", "/sample-report.pdf"]
     urls = "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in pages)
@@ -760,5 +818,5 @@ def sitemap():
 
 
 if __name__ == "__main__":
-    home(); builders(); startups(); teams(); learn(); evals(); check(); sitemap()
+    home(); builders(); startups(); teams(); learn(); evals(); check(); privacy(); sitemap()
     print("built")
